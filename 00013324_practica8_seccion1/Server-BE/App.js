@@ -3,7 +3,6 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import bodyParser from "body-parser";
 import cors from "cors";
-import controllers from "./controllers/controllers.js";
 import {PORT} from "./keys/keys.js"
 import userRoutes from "./router/router.js";
 
