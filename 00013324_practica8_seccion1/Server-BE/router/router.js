@@ -4,10 +4,10 @@ import express from "express";
 import { verifyToken } from "../utils/middleware/index.js";
 
 // Módulos controladores importados
-import { SingIn } from "../controllers/signin.js";
-import { SingUp } from "../controllers/signup.js";
-import { displayHome } from "../controllers/displayHome.js";
-import { getUserById, getUsers, getUsersDesc } from "../controllers/getUsers.js";
+import { signIn } from "../controllers/signin.js";
+import { signUp } from "../controllers/signup.js";
+import { getUsers } from "../controllers/getUsers.js";
+import {getUserById} from "../controllers/getUserById.js"
 import { updateUser } from "../controllers/updateUser.js";
 import { deleteUser } from "../controllers/deleteUser.js";
 
@@ -15,9 +15,8 @@ import { deleteUser } from "../controllers/deleteUser.js";
 const router = express.Router();
 
 // Routes
-router.get("/", displayHome);
-router.post("/signin", SingIn);
-router.post("/signup", SingUp);
+router.post("/signin", signIn);
+router.post("/signup", signUp);
 router.get("/users", verifyToken, getUsers);
 router.get("/users/:id", verifyToken, getUserById);
 router.put("/users/:id", verifyToken, updateUser);

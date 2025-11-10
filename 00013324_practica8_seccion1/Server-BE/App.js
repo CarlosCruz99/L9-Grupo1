@@ -14,7 +14,7 @@ app.use(cors());
 // Routes
 app.use('/api', userRoutes);
 
-app.post("/signIn", async (req, res) => {
+app.post("/signInOriginal", async (req, res) => {
   const { email, password } = req.body;
   var stored_hash = '$2b$10$XOHI0.vg73ve9Oy73lqU5.W//tVQuqMIAKJn3n25ZA2DUF.YGm6vq'
 

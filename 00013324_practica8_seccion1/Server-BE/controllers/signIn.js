@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
 // modulos desarrollados por el producto
-import { db } from "../data/connection.js";
+import { pool } from "../data/db/connection.js";
 import { JWT_SECRET } from "../keys/keys.js";
 
 // $1, $2, $3
@@ -11,9 +11,9 @@ import { JWT_SECRET } from "../keys/keys.js";
 
 // [param1 = $1, param2 = $2, param3 = $3]
 
-export const SingIn = async (req, res) => {
+export const signIn = async (req, res) => {
   const { email, password } = req.body;
-  db.query(
+  pool.query(
     "SELECT * FROM users WHERE email = $1",
     [email],
     async (error, results) => {
