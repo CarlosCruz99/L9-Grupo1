@@ -4,33 +4,16 @@ import bcrypt from "bcrypt";
 import bodyParser from "body-parser";
 import cors from "cors";
 import controllers from "./controllers/controllers.js";
+import {PORT} from "./keys/keys.js"
+import userRoutes from "./router/router.js";
 
 const app = express();
-const PORT = 5000;
-const JWT_SECRET = "your_jwt_secret"; // Use a strong, secure key in production
 
 app.use(bodyParser.json());
 app.use(cors());
 
-// Middleware: Verify Token
-const verifyToken = (req, res, next) => {
-  const authHeader = req.headers.authorization;
-  if (!authHeader) return res.status(401).json({ message: "Unauthorized" });
-
-  const token = authHeader.split(" ")[1];
-  jwt.verify(token, JWT_SECRET, (err, user) => {
-    if (err) return res.status(403).json({ message: "Invalid token" });
-    req.user = user;
-    next();
-  });
-};
-
 // Routes
-app.get('/users', verifyToken, controllers.getUsers)
-app.get('/users/:id', verifyToken, controllers.getUserById)
-app.post('/users', verifyToken, controllers.createUser)
-app.put('/users/:id', verifyToken, controllers.updateUser)
-app.delete('/users/:id', verifyToken, controllers.deleteUser)
+app.use('/api', userRoutes);
 
 app.post("/signIn", async (req, res) => {
   const { email, password } = req.body;
@@ -48,10 +31,6 @@ app.post("/signIn", async (req, res) => {
   }
   const token = jwt.sign({ email: email }, JWT_SECRET, { expiresIn: "1h" });
   res.status(200).json({ token });
-});
-
-app.get("/protected", verifyToken, (req, res) => {
-  res.status(200).json({ message: "Protected data accessed", user: req.user });
 });
 
 app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`)
